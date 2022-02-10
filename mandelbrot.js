@@ -1,4 +1,3 @@
-const MAX_ITERS = document.getElementById('max_iters').valueOf()
 
 function complex_multiply(num, other) {
     /**
@@ -26,13 +25,31 @@ function f(Z, C) {
     return Z
 }
 
-function mandelbrot(C) {
+function mandelbrot(C, MAX_ITERS) {
     /**
      * Calculates the number of iterations before a constant tends to infinity
      * @param {{r: number, i: number}} C The constant to be added on each iteration
      * @returns {number} number of iterations before escape
      */
     let Z = {r: 0, i: 0}, n = MAX_ITERS  // Set Z to start at origin
+    for (let i = 0; i<MAX_ITERS; i++) {
+        // If magnitude of point is greater than 2, it will tend to infinity
+        if (Z.r**2 + Z.i**2 > 4) {
+            n = i
+            break;
+        }
+        Z = f(Z, C) // iterate Z
+    }
+    return n
+}
+
+function julia(Z) {
+    /**
+     * Calculates the number of iterations before a constant tends to infinity
+     * @param {{r: number, i: number}} C The constant to be added on each iteration
+     * @returns {number} number of iterations before escape
+     */
+    let C = {r: document.getElementById('center_r').valueAsNumber, i: document.getElementById('center_i').valueAsNumber}, n = MAX_ITERS
     for (let i = 0; i<MAX_ITERS; i++) {
         // If magnitude of point is greater than 2, it will tend to infinity
         if (Z.r**2 + Z.i**2 > 4) {
